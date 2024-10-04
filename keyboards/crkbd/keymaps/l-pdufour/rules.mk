@@ -1,6 +1,6 @@
 # Feature enable/disable flags
 
-MOUSEKEY_ENABLE = no       # Mouse keys
+MOUSEKEY_ENABLE = yes       # Mouse keys
 EXTRAKEY_ENABLE = yes      # Audio control and System control
 CONSOLE_ENABLE = no       # Console for debug
 COMMAND_ENABLE = no        # Commands for debug and configuration
@@ -13,7 +13,8 @@ BLUETOOTH_ENABLE = no      # Enable Bluetooth
 RGBLIGHT_ENABLE = no       # Enable WS2812 RGB underlight
 RGB_MATRIX_ENABLE = no     # Matrix LEDs
 LTO_ENABLE = yes
+KEY_LOCK_ENABLE = no
+DEFERRED_EXEC_ENABLE = yes
 
 CFLAGS += -flto
-EXTRAFLAGS += -flto
 
