@@ -1,5 +1,5 @@
 #include QMK_KEYBOARD_H
-
+#include "oneshot.h"
 enum layer_names {
     _BASE,
     _NAV,
@@ -8,28 +8,53 @@ enum layer_names {
     _NUM,
     _FUN,
 };
+/* enum combo_events { */
+/*     LCTL, */
+/*     LALT, */
+/*     LGUI, */
+/*     RCTL, */
+/*     RALT, */
+/*     RGUI, */
+/*     RALTGR, */
+/* }; */
+/* const uint16_t PROGMEM df_combo[] = {KC_D, KC_F, COMBO_END}; */
+/* const uint16_t PROGMEM sf_combo[] = {KC_S, KC_F, COMBO_END}; */
+/* const uint16_t PROGMEM sd_combo[] = {KC_S, KC_D, COMBO_END}; */
+/* const uint16_t PROGMEM sdf_combo[] = {KC_S, KC_D, KC_F,  COMBO_END}; */
+/* const uint16_t PROGMEM kj_combo[] = {KC_K, KC_J, COMBO_END}; */
+/* const uint16_t PROGMEM lj_combo[] = {KC_L, KC_J, COMBO_END}; */
+/* const uint16_t PROGMEM lk_combo[] = {KC_L, KC_K, COMBO_END}; */
+/* const uint16_t PROGMEM lkj_combo[] = {KC_L, KC_K, KC_J, COMBO_END}; */
+/**/
+/* combo_t key_combos[] = { */
+/*   [LCTL] = COMBO(df_combo, KC_LCTL), */
+/*   [LALT] = COMBO(sf_combo, KC_LALT), */
+/*   [LGUI] = COMBO(sd_combo, KC_LGUI), */
+/*   [RCTL] = COMBO(kj_combo, KC_LCTL), */
+/*   [RALT] = COMBO(lj_combo, KC_LALT), */
+/*   [RGUI] = COMBO(lk_combo, KC_LGUI), */
+/*   [RALTGR] = COMBO(lkj_combo, KC_RALT), */
+/* }; */
 
 enum custom_keycodes {
     SMTD_KEYCODES_BEGIN = SAFE_RANGE,
-    CKC_A,
-    CKC_S,
-    CKC_D,
-    CKC_F,
-
     CKC_SPC,
     CKC_TAB,
-
-    CKC_J,
-    CKC_K,
-    CKC_L,
-    CKC_SCLN,
-    CKC_DOT,
-
     CKC_ENT,
     CKC_BSPC,
     CKC_DEL,
-
     SMTD_KEYCODES_END,
+};
+
+enum keycodes {
+    // Custom oneshot mod implementation with no timers.
+    OS_SHFT = SAFE_RANGE,
+    OS_CTRL,
+    OS_ALT,
+    OS_LGUI,
+
+    /* SW_WIN,  // Switch to next window         (cmd-tab) */
+    /* SW_LANG, // Switch to next input language (ctl-spc) */
 };
 
 #include "sm_td.h"
@@ -42,9 +67,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       KC_LBRC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSLS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_RBRC,   CKC_A,   CKC_S,   CKC_D,   CKC_F,    KC_G,                         KC_H,   CKC_J,   CKC_K,   CKC_L,CKC_SCLN, KC_QUOT,
+      KC_RBRC,   KC_A,   KC_S,   KC_D,   KC_F,    KC_G,                         KC_H,   KC_J,   KC_K,   KC_L,KC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_CAPS,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  CKC_DOT, KC_SLSH, KC_GRV,
+      KC_TAB,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_GRV,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_ESC, CKC_SPC, CKC_TAB,    CKC_ENT,  CKC_BSPC, CKC_DEL
                                       //`--------------------------'  `--------------------------'
@@ -54,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_NO, KC_MPRV, KC_MPLY, KC_MSTP, KC_MNXT,   KC_NO,                      KC_AGIN, KC_UNDO,  KC_CUT, KC_COPY, KC_PSTE, KC_VOLU,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_NO, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT,   KC_NO,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RIGHT, KC_NO, KC_VOLD,
+        KC_NO, OS_LGUI, OS_ALT, OS_CTRL, OS_SHFT,   KC_NO,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RIGHT, KC_NO, KC_VOLD,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                       KC_INS, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, KC_MUTE,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -65,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_AGIN, KC_UNDO,  KC_CUT, KC_COPY, KC_PSTE,   KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_NO, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT,   KC_NO,                      MS_LEFT, MS_DOWN,   MS_UP, MS_RGHT,   KC_NO,   KC_NO,
+        KC_NO, OS_LGUI, OS_ALT, OS_CTRL, OS_SHFT,   KC_NO,                      MS_LEFT, MS_DOWN,   MS_UP, MS_RGHT,   KC_NO,   KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                      MS_WHLL, MS_WHLD, MS_WHLU, MS_WHLR,   KC_NO,    KC_NO,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -76,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_NO, KC_LBRC,    KC_7,    KC_8,    KC_9, KC_RBRC,                        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_NO, KC_SCLN,    KC_4,    KC_5,    KC_6,  KC_EQL,                        KC_NO, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,   KC_NO,
+        KC_NO, KC_SCLN,    KC_4,    KC_5,    KC_6,  KC_EQL,                        KC_NO, OS_SHFT, OS_CTRL, OS_ALT, OS_LGUI,   KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         KC_NO,   KC_GRV,   KC_1,    KC_2,    KC_3, KC_BSLS,                        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -109,107 +134,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 void on_smtd_action(uint16_t keycode, smtd_action action, uint8_t tap_count) {
     switch (keycode) {
-        case CKC_A: {
-            switch (action) {
-                case SMTD_ACTION_TOUCH:
-                    break;
-                case SMTD_ACTION_TAP:
-                    tap_code(KC_A);
-                    break;
-                case SMTD_ACTION_HOLD:
-                    switch (tap_count) {
-                        case 0:
-                        case 1:
-                            register_mods(MOD_BIT(KC_LGUI));
-                            break;
-                        default:
-                            register_code16(KC_A);
-                            break;
-                    }
-                    break;
-                case SMTD_ACTION_RELEASE:
-                    switch (tap_count) {
-                        case 0:
-                        case 1:
-                            unregister_mods(MOD_BIT(KC_LGUI));
-                            break;
-                        default:
-                            unregister_code16(KC_A);
-                            break;
-                    }
-                    break;
-            }
-            break;
-        }
-        // All your other cases remain the same
-        SMTD_MT(CKC_S, KC_S, KC_LALT)   // S with Left ALT when held
-        SMTD_MT(CKC_D, KC_D, KC_LCTL)   // D with Left Control when held
-        SMTD_MT(CKC_F, KC_F, KC_LSFT)   // F with Left Shift when held
-        // Layer Tap Definitions
         SMTD_LT(CKC_SPC, KC_SPACE, _NAV) // Space bar for number layer
         SMTD_LT(CKC_TAB, KC_TAB, _MOUSE) // Space bar for number layer
-        // Additional Modifier Taps
-        SMTD_MT(CKC_J, KC_J, KC_LSFT)    // J with Left Shift when held
-        SMTD_MT(CKC_K, KC_K, KC_LCTL)    // K with Left Control when held
-        SMTD_MT(CKC_L, KC_L, KC_LALT)    // L with Left ALT when held
-        SMTD_MT(CKC_SCLN, KC_SCLN, KC_LGUI) // Semicolon with Left GUI when held
-        SMTD_MT(CKC_DOT, KC_DOT, KC_RALT) // Semicolon with Left GUI when held
         SMTD_LT(CKC_DEL, KC_DEL, _FUN) // Space bar for number layer
         SMTD_LT(CKC_BSPC, KC_BSPC, _NUM) // Space bar for number layer
         SMTD_LT(CKC_ENT, KC_ENT, _SYM) // Space bar for number layer
     }
 }
 
+bool is_oneshot_ignored_key(uint16_t keycode) {
+    switch (keycode) {
+    case OS_SHFT:
+    case OS_CTRL:
+    case OS_ALT:
+    case OS_LGUI:
+        return true;
+    default:
+        return false;
+    }
+}
+
+oneshot_state os_shft_state = os_up_unqueued;
+oneshot_state os_ctrl_state = os_up_unqueued;
+oneshot_state os_alt_state = os_up_unqueued;
+oneshot_state os_cmd_state = os_up_unqueued;
+
 uint32_t get_smtd_timeout(uint16_t keycode, smtd_timeout timeout) {
     switch (keycode) {
-        // left side
-        case CKC_A:
-            if (timeout == SMTD_TIMEOUT_TAP) return 350;
-            if (timeout == SMTD_TIMEOUT_RELEASE) return 10;
-            break;
-        case CKC_S:
-            if (timeout == SMTD_TIMEOUT_TAP) return 300;
-            if (timeout == SMTD_TIMEOUT_RELEASE) return 20;
-            break;
-        case CKC_D:
-            if (timeout == SMTD_TIMEOUT_TAP) return 300;
-            if (timeout == SMTD_TIMEOUT_RELEASE) return 20;
-            break;
-        case CKC_F:
-            if (timeout == SMTD_TIMEOUT_TAP) return 300;
-            if (timeout == SMTD_TIMEOUT_RELEASE) return 20;
-            break;
 
-        /* case CKC_ESC: */
-        /*     if (timeout == SMTD_TIMEOUT_TAP) return 300; */
-        /*     if (timeout == SMTD_TIMEOUT_RELEASE) return 20; */
-        /*     break; */
-        case CKC_SPC:
-            if (timeout == SMTD_TIMEOUT_TAP) return 300;
-            if (timeout == SMTD_TIMEOUT_RELEASE) return 20;
-            break;
         case CKC_TAB:
             if (timeout == SMTD_TIMEOUT_TAP) return 300;
             if (timeout == SMTD_TIMEOUT_RELEASE) return 20;
             break;
-
-        // right side
-        case CKC_J:
+        case CKC_SPC:
             if (timeout == SMTD_TIMEOUT_TAP) return 300;
             if (timeout == SMTD_TIMEOUT_RELEASE) return 20;
             break;
-        case CKC_K:
-            if (timeout == SMTD_TIMEOUT_TAP) return 300;
-            if (timeout == SMTD_TIMEOUT_RELEASE) return 20;
-            break;
-        case CKC_L:
-            if (timeout == SMTD_TIMEOUT_TAP) return 300;
-            if (timeout == SMTD_TIMEOUT_RELEASE) return 20;
-            break;
-        case CKC_SCLN:
-            if (timeout == SMTD_TIMEOUT_TAP) return 350;
-            if (timeout == SMTD_TIMEOUT_RELEASE) return 50;
-            break;
+        /* case CKC_LSFT: */
+        /*     if (timeout == SMTD_TIMEOUT_TAP) return 300; */
+        /*     if (timeout == SMTD_TIMEOUT_RELEASE) return 20; */
+        /*     break; */
 
         case CKC_ENT:
             if (timeout == SMTD_TIMEOUT_TAP) return 300;
@@ -230,8 +194,25 @@ uint32_t get_smtd_timeout(uint16_t keycode, smtd_timeout timeout) {
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
     if (!process_smtd(keycode, record)) {
         return false;
     }
+    update_oneshot(
+        &os_shft_state, KC_LSFT, OS_SHFT,
+        keycode, record
+    );
+    update_oneshot(
+        &os_ctrl_state, KC_LCTL, OS_CTRL,
+        keycode, record
+    );
+    update_oneshot(
+        &os_alt_state, KC_LALT, OS_ALT,
+        keycode, record
+    );
+    update_oneshot(
+        &os_cmd_state, KC_LGUI, OS_LGUI,
+        keycode, record
+    );
         return true;
 }
