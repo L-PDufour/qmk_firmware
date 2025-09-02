@@ -7,4 +7,4 @@ CAPS_WORD_ENABLE = yes
 # COMBO_ENABLE = yes
 
 # sm_td
-# DEFERRED_EXEC_ENABLE = yes
+DEFERRED_EXEC_ENABLE = yes
