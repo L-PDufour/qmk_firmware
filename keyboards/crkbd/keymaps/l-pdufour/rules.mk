@@ -1,9 +1,4 @@
-# Feature enable/disable flags
-# SRC += oneshot.c
-OLED_ENABLE = no
-RGBLIGHT_ENABLE = no
+DYNAMIC_TAPPING_TERM_ENABLE = yes
 CAPS_WORD_ENABLE = yes
-# COMBO_ENABLE = yes
-
-# sm_td
-# DEFERRED_EXEC_ENABLE = yes
+EXTRAKEY_ENABLE = yes
+COMBO_ENABLE = yes
