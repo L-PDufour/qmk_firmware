@@ -1,13 +1,14 @@
 #include QMK_KEYBOARD_H
 enum layer_names {
     _BASE,
+    _GAM,
+    _MSE,
     _NAV,
     _NUM,
     _FUN,
 };
-enum custom_keycodes {
-    PAREN_KEY = SAFE_RANGE
-};
+// Combo definitions
+
 // Base home row
 #define HM_A LGUI_T(KC_A)
 #define HM_S LALT_T(KC_S)
@@ -38,16 +39,39 @@ enum custom_keycodes {
 #define CKC_BSPC LT(_NAV, KC_BSPC)
 #define CKC_DEL LT(_FUN, KC_DEL)
 
+enum combos {
+    COMBO_MOUSE,
+};
+
+// Define combo keys - V and M keys for mouse layer
+const uint16_t PROGMEM combo_mouse[] = {KC_M, KC_COMM, COMBO_END};
+
+// Map combos to actions
+combo_t key_combos[] = {
+    [COMBO_MOUSE] = COMBO(combo_mouse, OSL(_MSE)), // One-shot layer for mouse
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_LBRC,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSLS,
+     TG(_GAM),    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSLS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_RBRC,    HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                         KC_H,    HM_J,    HM_K,    HM_L, HM_SCLN, KC_QUOT,
+      KC_LBRC,   HM_A,    HM_S,    HM_D,    HM_F,    KC_G,                         KC_H,    HM_J,    HM_K,    HM_L, HM_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    PAREN_KEY,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_GRV,
+      KC_RBRC,     KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_GRV,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_ESC, CKC_SPC, KC_TAB,    KC_ENT, CKC_BSPC, CKC_DEL
+                                      //`--------------------------'  `--------------------------'
+    ),
+    [_GAM] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+     TG(_GAM),    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSLS,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LSFT,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LCTL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, KC_GRV,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                           KC_ESC,  KC_SPC,  KC_TAB,     KC_ENT, KC_BSPC,   KC_DEL
                                       //`--------------------------'  `--------------------------'
     ),
 
@@ -57,11 +81,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
         KC_NO, KC_LEFT, KC_DOWN,   KC_UP, KC_RIGHT,KC_MUTE,                        KC_NO, KC_LCTL, KC_LSFT, KC_LALT, KC_LGUI,   KC_NO,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-        KC_NO, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, KC_VOLD,                        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_NO, KC_HOME, KC_PGDN, KC_PGUP,  KC_END, KC_VOLD,                        KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_NO ,   KC_NO,   KC_NO,      KC_NO,   XXXXXXX,   KC_NO
                                     //`--------------------------'  `--------------------------'
     ),
+[_MSE] = LAYOUT_split_3x6_3(
+//,-----------------------------------------------------.                    ,-----------------------------------------------------.
+    KC_NO,   KC_NO,   KC_NO,    KC_NO,    KC_NO,KC_NO,                        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+//|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+    KC_NO, KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R,   KC_NO,                        KC_NO, KC_LCTL, KC_LSFT, KC_LALT, KC_LGUI,   KC_NO,
+//|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+    KC_NO, KC_WH_L, KC_WH_D,  KC_WH_U,   KC_WH_R,   KC_NO,                     KC_NO, XXXXXXX,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+//|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          KC_BTN3, KC_BTN1,KC_BTN2, KC_NO,   XXXXXXX,   KC_NO
+                                //`--------------------------'  `--------------------------'
+),
     [_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_NO, KC_PIPE, KC_LCBR, KC_RCBR,  KC_DQT,   KC_NO,                        KC_NO,    KC_7,    KC_8,    KC_9, KC_PAST,   KC_NO,
@@ -73,17 +108,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                             KC_NO, XXXXXXX,   KC_NO,    KC_PEQL,    KC_0,  KC_DOT
                                       //`--------------------------'  `--------------------------'
     ),
-  /*   [_SYM] = LAYOUT_split_3x6_3( */
-  /* //,-----------------------------------------------------.                    ,-----------------------------------------------------. */
-  /*       KC_NO, KC_LBRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RBRC,                        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO, */
-  /* //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------| */
-  /*       KC_NO, KC_COLN,  KC_DLR, KC_PERC, KC_CIRC, KC_PLUS,                        KC_NO, KC_LSFT, KC_LCTL, KC_LALT, KC_LGUI,   KC_NO, */
-  /* //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------| */
-  /*       KC_NO, KC_TILD, KC_EXLM,   KC_AT, KC_HASH, KC_PIPE,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12, */
-  /* //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------| */
-  /*                                          KC_LPRN,KC_RPRN,  KC_UNDS,      KC_NO,   KC_NO,  KC_RALT */
-  /*                                     //`--------------------------'  `--------------------------' */
-  /*   ), */
+
     [_FUN] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
         KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
@@ -98,18 +123,5 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case PAREN_KEY:
-            if (record->event.pressed) {
-                if (get_mods() & MOD_MASK_SHIFT) {
-                    del_mods(MOD_MASK_SHIFT);
-                    SEND_STRING(")");
-                } else {
-                    SEND_STRING("(");
-                }
-            }
-            return false;
-        default:
-            return true;
-    }
+    return true;  // Add this line
 }
