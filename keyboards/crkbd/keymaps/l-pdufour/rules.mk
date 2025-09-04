@@ -1,6 +1,5 @@
 # Feature enable/disable flags
 # SRC += oneshot.c
-COMBO_ENABLE = yes
 OLED_ENABLE = no
 RGBLIGHT_ENABLE = no
 CAPS_WORD_ENABLE = yes
