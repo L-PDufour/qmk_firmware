@@ -19,7 +19,14 @@ void update_oneshot(
     uint16_t trigger,
     uint16_t keycode,
     keyrecord_t *record
+                   );
+
+// Oneshot layer implementation
+layer_state_t update_oneshot_layer(
+    layer_state_t state,
+    uint8_t layer
 );
+
 
 // To be implemented by the consumer. Defines keys to cancel oneshot mods.
 bool is_oneshot_cancel_key(uint16_t keycode);

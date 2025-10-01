@@ -1,7 +1,7 @@
 #pragma once
 
 #define SPLIT_USB_DETECT
-#define MAX_DEFERRED_EXECUTORS 10
-#define TAPPING_TERM 250
-/* #define PERMISSIVE_HOLD */
 
+#define ONESHOT_TIMEOUT 5000    // One shot mods expire after 5 seconds
+
+#define PERMISSIVE_HOLD

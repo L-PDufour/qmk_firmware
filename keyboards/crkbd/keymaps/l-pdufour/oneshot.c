@@ -55,3 +55,9 @@ void update_oneshot(
         }
     }
 }
+
+layer_state_t update_oneshot_layer(layer_state_t state, uint8_t layer) {
+    // This function ensures oneshot layers persist through layer changes
+    // Simply return the state unchanged to maintain layer states
+    return state;
+}
