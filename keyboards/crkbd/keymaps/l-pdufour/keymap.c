@@ -6,6 +6,8 @@ enum layer_names {
     _NAV,
     _NUM,
     _FUN,
+    _GAME,
+    _GAME2,
 };
 
 enum custom_keycodes {
@@ -41,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_RBRC,   CKC_A,   CKC_S,   CKC_D,   CKC_F,    KC_G,                         KC_H,   CKC_J,   CKC_K,   CKC_L,CKC_SCLN, KC_QUOT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_CAPS,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  CKC_DOT, KC_SLSH, KC_GRV,
+    TO(_GAME),    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  CKC_DOT, KC_SLSH, KC_GRV,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_ESC, CKC_SPC, KC_TAB,    KC_ENT,  CKC_BSPC, CKC_DEL
                                       //`--------------------------'  `--------------------------'
@@ -80,6 +82,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_NO ,   KC_NO,   KC_NO,      KC_NO,   KC_NO,  KC_RALT
                                       //`--------------------------'  `--------------------------'
+    ),
+
+    // UNDERRAIL Gaming Layer - Optimized for 3x5 core + thumbs
+    // Action Buttons: 1-9 (top row) | Combat Utils: Q,W,E,R,T,Y
+    // Menus: S(Char), I(Inv), P(Psi), G(Craft), C(Combat), N(Notes), M(Map)
+    // Combat: Space(End Turn), Enter(Start/End Combat)
+    // Quick: A(Take All), F(Invoker), X(Swap Weapon), V(Shield), B(Recharge)
+    // Nav: Tab(Highlight), Esc(Close), Z(Reverse Highlight)
+    [_GAME] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_MINS,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      KC_LSFT,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                      MO(_GAME2), KC_SPC,  KC_ENT,      KC_X,    KC_V,    KC_B
+                                     //`--------------------------'  `--------------------------'
+    ),
+
+    // UNDERRAIL Gaming Layer 2 - F-Keys, Arrows, Special Functions
+    // F-Keys: F1(Help), F2(HUD), F5(QSave), F9(QLoad)
+    // Arrows: Scroll View | Additional: Z,X,C,V,B,N,M access
+    [_GAME2] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+        KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                        KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,  KC_F12,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT,   KC_NO,   KC_NO,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+        KC_NO,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,   KC_NO,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                         KC_TRNS,   KC_NO,   KC_NO,      KC_NO,   KC_NO, TO(_BASE)
+                                     //`--------------------------'  `--------------------------'
     ),
  };
 
