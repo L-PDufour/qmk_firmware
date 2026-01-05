@@ -5,4 +5,3 @@
 #define TAPPING_TERM_PER_KEY
 #define PERMISSIVE_HOLD
 #define CHORDAL_HOLD
-/* #define PERMISSIVE_HOLD */
