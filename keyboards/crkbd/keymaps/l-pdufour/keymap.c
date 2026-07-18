@@ -36,6 +36,7 @@ combo_t key_combos[] = {
 #define HM_K LSFT_T(KC_K)
 #define HM_L LALT_T(KC_L)
 #define HM_SCLN LGUI_T(KC_SCLN)
+#define HM_DOT RALT_T(KC_DOT)
 
 // Window
 #define WM_1 LGUI(KC_1)
@@ -53,21 +54,21 @@ combo_t key_combos[] = {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE] = LAYOUT_split_3x6_3(
-          KC_NO,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,   KC_NO,
-          KC_NO,    HM_A,    HM_S,    HM_D,    HM_F,    KC_G,    KC_H,    HM_J,    HM_K,    HM_L, HM_SCLN,   KC_NO,
-          KC_NO,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,   KC_NO,
+          KC_NO,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,    KC_NO,
+          KC_NO,    HM_A,    HM_S,    HM_D,    HM_F,    KC_G,    KC_H,    HM_J,    HM_K,    HM_L,   HM_SCLN, KC_NO,
+          KC_NO,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, HM_DOT, KC_SLSH, KC_NO,
                                      KC_ESC, CKC_SPC, KC_TAB,    CKC_ENT, CKC_BSPC,  CKC_DEL
       ),
     [_SYM] = LAYOUT_split_3x6_3(
-          KC_NO, KC_LCBR, KC_AMPR, KC_ASTR, KC_LPRN, KC_RCBR,    KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-          KC_NO, KC_COLN, KC_DLR,  KC_PERC, KC_CIRC, KC_PLUS,    KC_NO, OS_LCTL, OS_LSFT, OS_LALT, OS_LGUI, KC_NO,
-          KC_NO, KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_PIPE,    KC_NO, KC_NO,   KC_NO,   OS_RALT, KC_NO,   KC_NO,
-                                   KC_LPRN, KC_RPRN, KC_UNDS,    XXXXXXX, KC_NO, KC_NO
-      ),
+        KC_NO, KC_GRV,  KC_LABK, KC_RABK, KC_DQUO, KC_DOT,     KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+        KC_NO, KC_EXLM, KC_LPRN, KC_RPRN, KC_QUOT, KC_COLN,    KC_NO, OS_LCTL, OS_LSFT, OS_LALT, OS_LGUI, KC_NO,
+        KC_NO, KC_CIRC, KC_LBRC, KC_RBRC, KC_LCBR, KC_RCBR,    KC_NO, KC_NO,   KC_NO,   OS_RALT, KC_NO,   KC_NO,
+                                 KC_AMPR, KC_UNDS, KC_MINS,    XXXXXXX, KC_NO, KC_NO
+    ),
     [_NUM] = LAYOUT_split_3x6_3(
-                   KC_NO, KC_LBRC, KC_7, KC_8, KC_9, KC_RBRC,    KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
-                   KC_NO, KC_SCLN, KC_4, KC_5, KC_6,  KC_EQL,    KC_NO, OS_LCTL, OS_LSFT, OS_LALT, OS_LGUI, KC_NO,
-                   KC_NO, KC_GRV,  KC_1, KC_2, KC_3, KC_BSLS,    KC_NO, KC_NO,   KC_NO,   OS_RALT, KC_NO,   KC_NO,
+                   KC_NO, KC_NO, KC_7, KC_8, KC_9,     KC_NO,    KC_NO, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+                   KC_NO, KC_NO, KC_4, KC_5, KC_6,    KC_EQL,    KC_NO, OS_LCTL, OS_LSFT, OS_LALT, OS_LGUI, KC_NO,
+                   KC_NO, KC_NO, KC_1, KC_2, KC_3,   KC_BSLS,    KC_NO, KC_NO,   KC_NO,   OS_RALT, KC_NO,   KC_NO,
                                        KC_DOT, KC_0, KC_MINS,    KC_NO, XXXXXXX, KC_NO
       ),
    [_FUN] = LAYOUT_split_3x6_3(
