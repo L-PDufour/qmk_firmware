@@ -1,7 +1,4 @@
-# Feature enable/disable flags
-
-OLED_ENABLE = no
-RGBLIGHT_ENABLE = no
-
-# sm_td
-DEFERRED_EXEC_ENABLE = yes
+DYNAMIC_TAPPING_TERM_ENABLE = yes
+CAPS_WORD_ENABLE = yes
+EXTRAKEY_ENABLE = yes
+COMBO_ENABLE = yes
